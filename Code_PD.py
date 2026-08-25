@@ -48,5 +48,5 @@ if "choices" in result:
 else:
     print("API error response:", result)
 
-        st.subheader("Summary")
-        st.write(summary)
+       ## st.subheader("Summary")
+  ##      st.write(summary)
