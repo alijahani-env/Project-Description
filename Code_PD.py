@@ -2,7 +2,7 @@
 import streamlit as st
 import PyPDF2
 import requests
-pip install PyPDF2
+
 
 
 st.title("Copilot PDF Summarizer")
