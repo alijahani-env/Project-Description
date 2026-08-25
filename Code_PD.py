@@ -40,6 +40,7 @@ if uploaded_file:
         response = requests.post(api_url, headers=headers, json=payload)
         result = response.json()
 
+        print(result)
         summary = result["choices"][0]["message"]["content"]
         st.subheader("Summary")
         st.write(summary)
