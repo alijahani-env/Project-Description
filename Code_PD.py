@@ -1,18 +1,17 @@
 
 
-
 import streamlit as st
 import PyPDF2
-import requests
+from groq import Groq
 
-st.title("PDF Summarizer")
+st.title("PDF Summarizer (Groq API – Free)")
 
-# Let user enter their own API key
-user_api_key = st.text_input("Enter your OpenAI API key:", type="password")
+# User enters their Groq API key
+groq_api_key = st.text_input("Enter your Groq API key:", type="password")
 
 uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
 
-if uploaded_file and user_api_key:
+if uploaded_file and groq_api_key:
 
     # Extract PDF text
     reader = PyPDF2.PdfReader(uploaded_file)
@@ -22,32 +21,22 @@ if uploaded_file and user_api_key:
         if page_text:
             text += page_text + "\n"
 
-    # Summarize button
     if st.button("Summarize PDF"):
 
-        api_url = "https://api.openai.com/v1/chat/completions"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {user_api_key}"
-        }
+        client = Groq(api_key=groq_api_key)
 
-        payload = {
-            "model": "gpt-4o-mini",
-            "messages": [
-                {"role": "user", "content": f"Summarize this document:\n\n{text}"}
-            ]
-        }
+        completion = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=[
+                {"role": "user", "content": f"Summarize this PDF:\n\n{text}"}
+            ],
+        )
 
-        response = requests.post(api_url, headers=headers, json=payload)
-        result = response.json()
+        summary = completion.choices[0].message["content"]
 
-        if "choices" in result:
-            summary = result["choices"][0]["message"]["content"]
-            st.subheader("Summary")
-            st.write(summary)
-        else:
-            st.error("API Error:")
-            st.write(result)
+        st.subheader("Summary")
+        st.write(summary)
 
-elif uploaded_file and not user_api_key:
-    st.warning("Please enter your OpenAI API key to continue.")
+elif uploaded_file and not groq_api_key:
+    st.warning("Please enter your Groq API key to continue.")
+
