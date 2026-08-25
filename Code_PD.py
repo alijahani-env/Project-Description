@@ -29,10 +29,10 @@ if uploaded_file and groq_api_key:
             model="llama3-70b-8192",
             messages=[
                 {"role": "user", "content": f"Summarize this PDF:\n\n{text}"}
-            ],
+            ]
         )
 
-        summary = completion.choices[0].message["content"]
+        summary = completion.choices[0].message.content
 
         st.subheader("Summary")
         st.write(summary)
