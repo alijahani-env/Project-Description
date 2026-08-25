@@ -1,52 +1,53 @@
 
+
+
 import streamlit as st
 import PyPDF2
 import requests
 
+st.title("PDF Summarizer")
 
-
-st.title("Copilot PDF Summarizer")
+# Let user enter their own API key
+user_api_key = st.text_input("Enter your OpenAI API key:", type="password")
 
 uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
 
-if uploaded_file:
+if uploaded_file and user_api_key:
+
     # Extract PDF text
-    pdf_reader = PyPDF2.PdfReader(uploaded_file)
+    reader = PyPDF2.PdfReader(uploaded_file)
     text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
+    for page in reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text + "\n"
 
-    st.write("PDF uploaded successfully.")
+    # Summarize button
+    if st.button("Summarize PDF"):
 
-    if st.button("Summarize with Copilot"):
-        # Replace with your Copilot API endpoint + auth
         api_url = "https://api.openai.com/v1/chat/completions"
         headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer YOUR_API_KEY"
+            "Authorization": f"Bearer {user_api_key}"
         }
 
         payload = {
-            "model": "gpt-4o",
+            "model": "gpt-4o-mini",
             "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {
-                    "role": "user",
-                    "content": f"Summarize the following document:\n\n{text}"
-                }
+                {"role": "user", "content": f"Summarize this document:\n\n{text}"}
             ]
         }
 
         response = requests.post(api_url, headers=headers, json=payload)
         result = response.json()
 
-        print(result)
-        
-if "choices" in result:
-    summary = result["choices"][0]["message"]["content"]
-    print(summary)
-else:
-    print("API error response:", result)
+        if "choices" in result:
+            summary = result["choices"][0]["message"]["content"]
+            st.subheader("Summary")
+            st.write(summary)
+        else:
+            st.error("API Error:")
+            st.write(result)
 
-       ## st.subheader("Summary")
-  ##      st.write(summary)
+elif uploaded_file and not user_api_key:
+    st.warning("Please enter your OpenAI API key to continue.")
