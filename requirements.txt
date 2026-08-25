@@ -4,3 +4,4 @@ pandas
 odfpy
 pypdf
 python-docx
+PyPDF2
