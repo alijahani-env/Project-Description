@@ -1,0 +1,6 @@
+streamlit
+reportlab
+pandas
+odfpy
+pypdf
+python-docx
