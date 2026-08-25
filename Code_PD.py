@@ -41,6 +41,12 @@ if uploaded_file:
         result = response.json()
 
         print(result)
-        summary = result["choices"][0]["message"]["content"]
+        
+if "choices" in result:
+    summary = result["choices"][0]["message"]["content"]
+    print(summary)
+else:
+    print("API error response:", result)
+
         st.subheader("Summary")
         st.write(summary)
