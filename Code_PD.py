@@ -31,7 +31,7 @@ if uploaded_file and groq_api_key:
 
         try:
             completion = client.chat.completions.create(
-                model="mixtral-8x7b-32768",
+                model="openai/gpt-oss-20b",
                 messages=[
                     {"role": "user", "content": f"Summarize this PDF:\n\n{text}"}
                 ]
