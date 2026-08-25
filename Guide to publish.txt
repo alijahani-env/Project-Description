@@ -1,0 +1,42 @@
+ Steps to publish your Streamlit app to the internet
+1. Make sure your code is in a GitHub repo
+You already have the code in a GitHub repository — good.
+Make sure the main file is something like:
+app.py
+
+(or whatever your main Streamlit script is called).
+
+2. Go to Streamlit Cloud
+Visit:
+👉 https://share.streamlit.io
+Log in with GitHub.
+
+3. Click “New app”
+You will see a button:
+[New app]
+Click it.
+
+4. Select your repository
+Streamlit will show your GitHub repos.
+Choose:
+
+Your GitHub account
+The repo that contains the app
+The branch (usually main)
+The main script (e.g., app.py)
+
+
+5. Press “Deploy”
+That's it!
+Streamlit will:
+
+Install your Python packages
+Run your app
+Give you a public link like:
+
+https://your-repo-name.streamlit.app/
+
+You can share this link with anyone.
+
+🎉 After deployment
+Every time you push new code to GitHub → Streamlit automatically updates the app.
