@@ -20,7 +20,7 @@ if uploaded_file:
 
     if st.button("Summarize with Copilot"):
         # Replace with your Copilot API endpoint + auth
-        api_url = "https://api.copilot.microsoft.com/openai/chat/completions"
+        api_url = "https://copilot.microsoft.com/chats/eWD4YwKyoGtYVy1RcXznt"
         headers = {
             "Content-Type": "application/json",
             "Authorization": "Bearer YOUR_API_KEY"
